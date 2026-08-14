@@ -5,9 +5,18 @@ metadata:
   type: feedback
 ---
 
-Never read, grep, search, or reference anything under `~/src/outlaws*`. Do not
-draw designs, names, constants, or file layouts from it. Derive answers in
+Never read, grep, search, or reference anything under `~/src/outlaws*`, nor the
+`github.com/bobjen/laws` and `github.com/bobjen/laws-notes` repos. Do not draw
+designs, names, constants, or file layouts from them. Derive answers in
 `~/src/delawson` or ask Bob.
+
+**Enforced in the harness** as of 2026-08-14, at Bob's request: deny rules in
+`~/.claude/settings.json` plus a `PreToolUse` hook
+(`~/.claude/hooks/clean-room-guard.sh`, patterns in
+`~/.claude/clean-room-blocklist.txt`) that denies any tool call whose input
+matches. Writes under `~/src/delawson`, `~/src/delawson-notes`, and
+`~/.claude` are exempt so the rule can be documented; `Bash` is never exempt,
+so even a harmless command mentioning those names is refused.
 
 **Why:** Bob worked on Microsoft Cosmos until 2026-07-01. The `outlaws*` tree
 is a similar project written partly during that employment and is contaminated

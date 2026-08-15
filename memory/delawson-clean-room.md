@@ -30,6 +30,16 @@ for a precedent there, that is exactly the moment not to. Everything in the
 DeLawson repos must trace to Bob's statements, public sources, or reasoning
 done in-session. See [[bob-jenkins]] and [[delawson-project-shape]].
 
+**What is public, and therefore usable.** Cosmos has a published overview — Pat Helland
+and Ed Harris, Stanford EE380, October 2011,
+https://web.stanford.edu/class/ee380/Abstracts/111026a-Helland-COSMOS.pdf — which names
+the layers, the Extent Node / stream / extent vocabulary, 2 GB extents, 3-way
+replication, and CSM. DeLawson's use of the same vocabulary is traceable to that talk.
+GFS (SOSP 2003) and Colossus (Google Cloud blog) are similarly public. Bob's own
+erasure-coding paper is public too, but is patent-encumbered — see
+[[delawson-ec-patent]]. Public sources are fair game; the point of the rule is the
+non-public specifics.
+
 Exposure to date: in the first session (2026-08-14) I listed the filenames
 under `outlaws-notes/memory/` and saw 5 commit subject lines before being told
 to stop; no file contents were read. `DESIGN.md` was written before that and is

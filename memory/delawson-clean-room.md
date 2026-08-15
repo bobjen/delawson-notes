@@ -30,6 +30,16 @@ for a precedent there, that is exactly the moment not to. Everything in the
 DeLawson repos must trace to Bob's statements, public sources, or reasoning
 done in-session. See [[bob-jenkins]] and [[delawson-project-shape]].
 
+**The "Bob's statements" channel is not a laundering route.** That clause was
+written for design decisions, not for disclosure of his former employer's
+proprietary material. Concretely: Bob mentioned (2026-08-14) a paper of his that
+was approved internally, rejected by a journal as not novel, and never cleared
+for self-publication — **so it is not public and not a usable source.** Do not
+ask him to describe its contents, and do not treat "Bob told me" as making
+non-public Microsoft material safe to build on. If something is only available
+through him because it was never published, it is off limits for the same reason
+`outlaws*` is.
+
 **What is public, and therefore usable.** Cosmos has a published overview — Pat Helland
 and Ed Harris, Stanford EE380, October 2011,
 https://web.stanford.edu/class/ee380/Abstracts/111026a-Helland-COSMOS.pdf — which names

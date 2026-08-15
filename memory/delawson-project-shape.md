@@ -15,8 +15,8 @@ after Bob's great-grandfather, **George DeLawson Lowry**.
 - Code: `~/src/delawson` → `github.com/bobjen/delawson` (**private**).
 - Notes/memory: `~/src/delawson-notes` → `github.com/bobjen/delawson-notes`
   (**private**).
-- Working style: Bob asked for a **design document first, no code**, before
-  implementation begins.
+- Working style: Bob asked for a **design document first, no code**. That phase ended
+  2026-08-14; implementation begins 2026-08-15 — see [[delawson-next-implementation]].
 
 Note `~/src` is itself a git repo with no commits; both DeLawson repos are
 independent repos nested inside it.

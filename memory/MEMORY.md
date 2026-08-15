@@ -8,4 +8,5 @@ One line per memory. Pointers only; content lives in the files.
 - [The name](delawson-the-name.md) — George DeLawson Lowry, who went by "Laws"; so "Laws" means DeLawson.
 - [Naming style](delawson-naming-style.md) — plain descriptive names, no puns; machine types end in -N only inside the storage hierarchy.
 - [Billing must track cost](delawson-billing-must-track-cost.md) — bill every scarce resource, not just bytes; under-billing metadata sank ADLS Gen1.
+- [EC patent](delawson-ec-patent.md) — maximally recoverable local codes are patented to 2034; Bob is a co-inventor, which makes it easy to walk into.
 - [Estimates are budgets](delawson-estimates-are-budgets.md) — don't re-baseline round guesses like the ~100 B extent entry as fields accumulate.

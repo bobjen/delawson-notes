@@ -33,6 +33,21 @@ per machine type.
 `~/src/delawson` holds only `DESIGN.md`, `README.md`, `CLAUDE.md`, `.gitignore` — no
 `Cargo.toml` yet, nothing scaffolded.
 
+**Still true as of 2026-08-15.** That day went to design instead — the append receipt, EN-internal
+staging, media classes, EC group structure and evaluation, repair scheduling, metadata snapshots, and
+placement degradation (`DESIGN.md` grew to ~6,500 lines, 95 open questions). **None of steps 1–5 has
+been started.**
+
+Two things from that day land directly on step 2, before any config file is written:
+
+- **Config needs a media-class table** (§7.4.1). Index interval, minimum read size, compression block
+  size, staging bypass threshold, and repair bandwidth are all per-device-class, not global. Putting
+  them in one table now is cheap; scattering them as constants is expensive later.
+- **The single-box harness has one domain at every level, so it satisfies no placement rule.** §5.6.7
+  says an unenforceable rule is simply not enforced, so the harness is *legal* — but it must be
+  visibly degenerate rather than silently reporting success, or the first thing the test
+  infrastructure teaches the system is how to violate its own invariant.
+
 **How to apply:** start at step 1 and do not skip ahead to storage. The milestone is
 deliberately about **process lifecycle, configuration, and message latency** — the things every
 later section depends on and none of which the design document specifies. Expect to add design

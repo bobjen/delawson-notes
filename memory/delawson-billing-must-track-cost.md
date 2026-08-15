@@ -30,6 +30,14 @@ stream case is **~3,300× more dangerous**. That is the real reason tiny objects
 lumped into shared streams: it moves their metadata from the RAM tier to the disk
 tier, not merely from many streams to few.
 
+**Two distinct meanings of "overhead"** — do not merge them, as I did once. The
+95%-is-disk figure is about **hardware cost composition**: disks are 95% of what you
+spend, everything else 5%. **Space efficiency** is separate and much bigger: only ~58%
+of purchased disk bytes are billable, after not-yet-installed drives, down drives,
+system metadata, an 80% fill target, and undeletable garbage. Wasted space comes out
+of the 95%, not the 5%. `DESIGN.md` §12.7 has the chain, and it lands on a price of
+~2.6x raw disk cost per byte sold.
+
 **How to apply:** Never simplify billing down to bytes, however tempting the "95% of
 cost is disk" figure in `DESIGN.md` §1.2 makes it — that figure is an *outcome* of a
 healthy workload, and billing only for bytes is what destroys the condition that

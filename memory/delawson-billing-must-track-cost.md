@@ -5,10 +5,15 @@ metadata:
   type: project
 ---
 
-Billing must be **proportional to actual cost, within some slack**, on every scarce
-resource — bytes stored, but also stream count, extent count, and object count.
-Bill too little and the service goes broke; bill too much and competitors undercut
-it. Both bounds bind.
+Billing must be **proportional to actual cost, within 2× slack** (Bob's default), on
+every scarce resource — bytes stored, but also stream count, extent count, and
+object count. Bill too little and the service goes broke; bill too much and
+competitors undercut it. Both bounds bind.
+
+The 2× figure is a usable test, not a platitude. It is what forces **physical**
+rather than logical byte billing, since compression ratios span 1× to 128× and no
+single logical price sits within 2× of cost for everyone. It also forces metering
+durability state per extent, since four replicas cost 2.67× a 6+3 encoding.
 
 **Why:** Bob's account, 2026-08-14. Cosmos was made user-visible once as **ADLS
 Gen1** (he notes the attempt is public knowledge). It did not bill for user

@@ -55,6 +55,23 @@ Two things from that day land directly on step 2, before any config file is writ
   visibly degenerate rather than silently reporting success, or the first thing the test
   infrastructure teaches the system is how to violate its own invariant.
 
+**Status, 2026-08-16 — steps 1-5 done, for two processes.** A cargo workspace with `common/`
+(config, wire protocol, daemon lifecycle, placement report), `laws/` (the client, every command
+present, unbuilt ones answering `unimplemented`), `ks/` (the template daemon), `config/`,
+and `scripts/start-laws`, `stop-laws`, `bench-laws`. DN, SN, EN and FE are copies of `ks`, not
+yet made. `DESIGN.md` §17 records the decisions; issues #2-#5 carry the detail.
+
+**The ping went to KS0, not FE0** — KS was the first daemon, and the far end does not matter to a
+messaging benchmark. Measured on loopback TCP, retail: **13-18 µs per round trip**, which is the
+~15 µs the table above calibrated for a *Unix-domain socket*, not the ~40 µs it guessed for TCP.
+The box saturates near **525k round trips/s** (8 clients x 8 outstanding); past saturation, depth
+buys latency and nothing else.
+
+Two directives from that day that shape everything later: **every call in every service is
+asynchronous** — request ids, any number outstanding, answers in any order — and **whether a
+message is answered on the read loop or handed to a worker pool is per message type and a
+measurement**, with ping almost certainly inline (issue #34).
+
 **How to apply:** start at step 1 and do not skip ahead to storage. The milestone is
 deliberately about **process lifecycle, configuration, and message latency** — the things every
 later section depends on and none of which the design document specifies. Expect to add design

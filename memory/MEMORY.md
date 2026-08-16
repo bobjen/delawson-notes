@@ -15,4 +15,6 @@ One line per memory. Pointers only; content lives in the files.
 - [Estimates are budgets](delawson-estimates-are-budgets.md) — don't re-baseline round guesses like the ~100 B extent entry as fields accumulate.
 - [Public sources](delawson-public-sources.md) — Bob's five public pages: the AI memory essay, three scale pages, and the erasure-coding song.
 - [Software should not matter](delawson-software-should-not-matter.md) — measure distance from the hardware bound, never from a competitor.
+- [Comment sparingly](delawson-code-comments.md) — few comments, and never a `DESIGN.md` section number in code.
+- [Name length](delawson-name-length.md) — 20 characters or fewer, ideally 15; describe once at the definition.
 - [Issue practice](delawson-issue-practice.md) — Issues are a cheap work queue; #1 is the ship checklist; update the docs before closing anything.

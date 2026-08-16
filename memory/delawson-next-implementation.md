@@ -95,6 +95,22 @@ its own answer and coalescing dies. The queue hop itself is only ~8 µs. So the 
 his tokio prototype ran 6x slower than this is the runtime, and this is the part of that guess this
 box can test — supportive, not a verdict.
 
+**Everything sent is encrypted and compressed in whole batches**, not per message: AEGIS-128X2 with
+the nonce from a connection prefix, a direction byte and a segment counter. Encryption is free on
+small messages and ~20% on large ones. **Headers compress even when bodies cannot** — a batch of bare
+pings is 5.5x smaller with no user data in it, which is the argument for batch-level compression. A
+failed attempt cost 39%, so a large batch is judged first by four sample pieces spread end to end
+(a prefix is wrong: batches are heterogeneous).
+
+**Logging, 2026-08-16.** Two rotating logs per process: the full one gets every line, the info one a
+target share, with busy sites sampled at a stride a histogram keeps current. Line is
+`n,date,pid=,tid=,file=,line=,message` with microsecond UTC; identity, host and version sit in a
+header at the top of each file. **`notice` is the level above info** — the answer to "what is the
+default for all but the chattiest lines". Three costs worth remembering: a filtered line 0.52 ns, a
+once-a-second `logsec!` line 2.87 ns, and an actually-written line per message **85% of throughput**
+(13.2M round trips/s to 1.9M), because a 105-byte line is five times the bytes a ping moves. **No
+request id as a fixed field** — GC, sync and repair have no request.
+
 **A batched ping was rejected** (2026-08-16): pipelining one client measures nothing the client
 count does not. What replaced it is a **variable reply size** filled with random bytes — and the
 generator is **Bob's own small fast one** (four words, three rotates, 64-bit rotates 7/13/37), since

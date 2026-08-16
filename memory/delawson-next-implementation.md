@@ -66,10 +66,20 @@ it listens on the one fixed port in a cluster and tells every other process what
 talk to (issue #36). So KS is what the others need before anything else works, which is why it was
 built first. Its address cannot come from a registry, which is also what keeps cold start acyclic.
 
+**The bar for ping is the prototype's ~1.4M QPS**, not §1.4's QPS targets: Bob corrected that on
+2026-08-16 — the **200k QPS figure is ObjectInfo** (`laws` → FE → DN → SN, one of 20M metadata
+records from RAM), four hops and a lookup, while the prototype's *ping* was ~1.4M. The first
+implementation is 230k-400k, so it is **3-4x short of already-done work**, with nothing batched.
+
 Measured on loopback TCP, retail, one round trip at a time per client: **`M` = 15-18 µs**, which is
 the ~15 µs the table above calibrated for a *Unix-domain socket*, not the ~40 µs it guessed for TCP.
 55.8k round trips/s with one client, 231k with 8, 400k with 16. With a reply body: **free to about
 1 KB, per-byte past 8 KB**, ceilings ~730 MB/s for one client and ~2.4 GB/s for eight.
+
+**KS is the registrar**, and the port assignment is split three ways: `start-laws` decides the port,
+the process announces it to KS, KS answers `identity → (machine, port)`. A registration announces a
+port and does not invent an identity — KS checks it against the roster. Ready means *findable*, not
+merely listening. Built 2026-08-16.
 
 **A batched ping was rejected** (2026-08-16): pipelining one client measures nothing the client
 count does not. What replaced it is a **variable reply size** filled with random bytes — and the

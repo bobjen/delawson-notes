@@ -61,11 +61,20 @@ present, unbuilt ones answering `unimplemented`), `ks/` (the template daemon), `
 and `scripts/start-laws`, `stop-laws`, `bench-laws`. DN, SN, EN and FE are copies of `ks`, not
 yet made. `DESIGN.md` §17 records the decisions; issues #2-#5 carry the detail.
 
-**The ping went to KS0, not FE0** — KS was the first daemon, and the far end does not matter to a
-messaging benchmark. Measured on loopback TCP, retail: **13-18 µs per round trip**, which is the
-~15 µs the table above calibrated for a *Unix-domain socket*, not the ~40 µs it guessed for TCP.
-The box saturates near **525k round trips/s** (8 clients x 8 outstanding); past saturation, depth
-buys latency and nothing else.
+**The ping went to KS0, not FE0, and that is deliberate:** Bob intends KS to be the **registrar** —
+it listens on the one fixed port in a cluster and tells every other process what machine and port to
+talk to (issue #36). So KS is what the others need before anything else works, which is why it was
+built first. Its address cannot come from a registry, which is also what keeps cold start acyclic.
+
+Measured on loopback TCP, retail, one round trip at a time per client: **`M` = 15-18 µs**, which is
+the ~15 µs the table above calibrated for a *Unix-domain socket*, not the ~40 µs it guessed for TCP.
+55.8k round trips/s with one client, 231k with 8, 400k with 16. With a reply body: **free to about
+1 KB, per-byte past 8 KB**, ceilings ~730 MB/s for one client and ~2.4 GB/s for eight.
+
+**A batched ping was rejected** (2026-08-16): pipelining one client measures nothing the client
+count does not. What replaced it is a **variable reply size** filled with random bytes — and the
+generator is **Bob's own small fast one** (four words, three rotates, 64-bit rotates 7/13/37), since
+he does not trust platform generators.
 
 Two directives from that day that shape everything later: **every call in every service is
 asynchronous** — request ids, any number outstanding, answers in any order — and **whether a

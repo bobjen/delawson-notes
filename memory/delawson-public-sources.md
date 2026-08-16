@@ -18,11 +18,15 @@ Five public pages by Bob supply DeLawson's motivation and its scale target. All 
 
 **Why these matter beyond being nice links:** the AI page is specific enough to convert §1.0's
 motivation into requirements — thousands of minds, 1–100 TB each, and a *remember-test* cycle at
-~10,000/s on SSD. That yields **~10^7 metadata QPS** and, more importantly, identifies the **only
-serial workload in the design**: a thinking cycle is dependent step after dependent step, so
-per-mind speed is capped by round-trip latency (~100 µs), and parallelism has to come from the
-*number* of minds rather than from within one. Everything else in DeLawson is a §1.4
-throughput problem; this one is not.
+~10,000/s on SSD. That yields **~10^7 metadata QPS**, and more with concurrency.
+
+**Do not read the thinking cycle as a serial workload** — I got this wrong once. A soul is a *set of
+goals and ongoing projects*, not a thread, and souls think in parallel, so §1.4's
+throughput-over-latency stance applies here like everywhere else. What a single dependent chain
+bounds is **depth**: a conclusion needing N sequential remember-test steps costs N × latency of wall
+clock however much hardware is available. So **latency buys depth of reasoning, throughput buys
+breadth**, and the §1.0.5 cluster-diameter choice is really a cognition tradeoff rather than a
+storage one.
 
 **The Dyson-swarm page is the one with a present-day consequence**, and not because of its scale. Its
 property is that all satellites share one orbital period, so **neighbours stay next to neighbours** —

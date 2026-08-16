@@ -13,5 +13,6 @@ One line per memory. Pointers only; content lives in the files.
 - [EC patent](delawson-ec-patent.md) — maximally recoverable local codes are patented to 2034; Bob is a co-inventor, which makes it easy to walk into.
 - [Nullius in verba](delawson-nullius-in-verba.md) — derive it or label it a guess; Bob's numbers carry no authority either.
 - [Estimates are budgets](delawson-estimates-are-budgets.md) — don't re-baseline round guesses like the ~100 B extent entry as fields accumulate.
+- [Public sources](delawson-public-sources.md) — Bob's four public pages: the AI memory essay, two big-data-center pages, and the erasure-coding song.
 - [Software should not matter](delawson-software-should-not-matter.md) — measure distance from the hardware bound, never from a competitor.
 - [Issue practice](delawson-issue-practice.md) — Issues are a cheap work queue; #1 is the ship checklist; update the docs before closing anything.

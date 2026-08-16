@@ -13,3 +13,4 @@ One line per memory. Pointers only; content lives in the files.
 - [EC patent](delawson-ec-patent.md) — maximally recoverable local codes are patented to 2034; Bob is a co-inventor, which makes it easy to walk into.
 - [Nullius in verba](delawson-nullius-in-verba.md) — derive it or label it a guess; Bob's numbers carry no authority either.
 - [Estimates are budgets](delawson-estimates-are-budgets.md) — don't re-baseline round guesses like the ~100 B extent entry as fields accumulate.
+- [Issue practice](delawson-issue-practice.md) — Issues are a cheap work queue; #1 is the ship checklist; update the docs before closing anything.

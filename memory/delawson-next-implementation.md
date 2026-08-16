@@ -81,6 +81,20 @@ the process announces it to KS, KS answers `identity → (machine, port)`. A reg
 port and does not invent an identity — KS checks it against the roster. Ready means *findable*, not
 merely listening. Built 2026-08-16.
 
+**Batching means per-connection transport coalescing**, not a batch message (Bob, 2026-08-16): both
+sides buffer frames and flush when nothing is left to read or answer. Worth **25x on one
+connection** (59k → 1.48M round trips/s), which is where the prototype's ping bar sits; 8.4M at
+16 connections x 256 in flight on this box, verified against KS's own answered-request counter and
+costing 0.81 µs of server core per message. The 2M ObjectInfo figure was the *other* kind of
+batching — an explicit request for 1,000 random objects.
+
+**The dispatch finding is the one to remember:** answering ping on a worker instead of the read loop
+caps throughput at ~200k however much load arrives, a 38x loss, because a scheduled handler flushes
+its own answer and coalescing dies. The queue hop itself is only ~8 µs. So the question is never
+"threads or async runtime" but "can answers still pile up before they are sent". Bob's guess for why
+his tokio prototype ran 6x slower than this is the runtime, and this is the part of that guess this
+box can test — supportive, not a verdict.
+
 **A batched ping was rejected** (2026-08-16): pipelining one client measures nothing the client
 count does not. What replaced it is a **variable reply size** filled with random bytes — and the
 generator is **Bob's own small fast one** (four words, three rotates, 64-bit rotates 7/13/37), since

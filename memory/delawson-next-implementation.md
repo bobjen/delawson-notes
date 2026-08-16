@@ -17,7 +17,7 @@ Design phase ended 2026-08-14. **Implementation starts 2026-08-15**, in this ord
 about 0.33 µs at 3 GHz — so essentially all of the measured time is **message overhead**.
 That is the point: it establishes the baseline for building fast messaging.
 
-For calibration, so tomorrow's first measurement has something to check against:
+For calibration, so the first measurement has something to check against:
 
 | Transport | Round trip | Share that is overhead |
 |---|---|---|
@@ -25,6 +25,13 @@ For calibration, so tomorrow's first measurement has something to check against:
 | Unix domain socket | ~15 µs | 97.8% |
 | io_uring / kernel bypass | ~8 µs | 95.8% |
 | Shared memory, spinning | ~1 µs | 66.7% |
+
+**Do not read that io_uring row as a plan.** Bob's prototype measured io_uring as a
+**regression** on the network path: batching amortizes the same per-request syscall
+overhead and did it better, and batching alone delivered all the gains. The point of
+timing a single ping is to learn the per-message overhead `M`, which is what tells you
+the **batch depth** needed to hide it. `DESIGN.md` §1.4.0.1 records this; io_uring for
+**EN-to-SSD** is a separate, untried, positive-prior case.
 
 **Naming:** `FE0` follows the `DN0` convention from `DESIGN.md` §5.5.1 — numbered instances
 per machine type.

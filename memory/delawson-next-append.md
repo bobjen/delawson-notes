@@ -5,8 +5,10 @@ metadata:
   type: project
 ---
 
-**Append works as of 2026-08-17.** `laws append /path --data "…"` reaches an EN. See
-`DESIGN.md` §17.8 for what was built and §8.1.5-§8.1.6 for the design added with it.
+**Append and read both work as of 2026-08-17.** `laws append /path --data "…"` creates
+the object if it is not there, and `laws read /path --record 0` gives the record back.
+See `DESIGN.md` §17.8 and §17.9 for what was built, §8.1.5-§8.1.6 and §8.2.3-§8.2.4 for
+the design that arrived with it, and [[delawson-record-rules]] for the record rules.
 
 The shape, so it is not re-derived: **FE → DN** for the object's stream, **FE → SN**
 for the extent, **FE → primary EN** for the bytes, **primary → three secondaries** in
@@ -23,9 +25,14 @@ What matters and is easy to lose:
 - **The quorum counting is a type of its own**, apart from the reply, which is why it
   is unit-testable. Two failures settle it at once rather than after a timeout.
 
-Deliberately not built, so nobody looks for it: implicit create (append to a missing
-name is `not found`), sealing and the extent cap, record framing and record numbers,
-EN-internal staging, the per-disk journal, and any way to read the bytes back.
+Deliberately not built, so nobody looks for it: **sealing** and the extent cap, the
+sparse index, reading by key, scans, EN-internal staging, and the per-disk journal.
+Sealing is next, by [[delawson-exercise-the-rare-path]].
+
+⚠️ **Two placeholders to remember when quoting a read rate:** the EN parses an extent
+from the beginning every time (no sparse index), and a read goes to the *primary* rather
+than any instance — an unsealed extent differs between instances, because a quorum of
+three plus local coalescing can leave interior holes.
 
 ⚠️ **The one known wrong thing:** the receipt's offset is a *compressed* position where
 the design wants a logical one, because the append carries no logical length. It is

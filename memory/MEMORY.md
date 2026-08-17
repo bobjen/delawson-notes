@@ -24,3 +24,5 @@ One line per memory. Pointers only; content lives in the files.
 - [Two spaces](delawson-two-spaces.md) — LOff and COff: logical and compressed are separate types so the compiler catches the mixup.
 - [Feature parameters](delawson-feature-parameters.md) — checked in off, and the ring's leader reads it and sends it.
 - [Test strategy](delawson-test-strategy.md) — unit tests are the bulk; one e2e test; benchmarks carry their numbers.
+- [Record rules](delawson-record-rules.md) — one size bound for append, record and extent; a block ends on a boundary or holds none.
+- [Exercise the rare path](delawson-exercise-the-rare-path.md) — shrink a limit until the rare case is the common one.

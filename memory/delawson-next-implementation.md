@@ -111,6 +111,32 @@ once-a-second `logsec!` line 2.87 ns, and an actually-written line per message *
 (13.2M round trips/s to 1.9M), because a 105-byte line is five times the bytes a ping moves. **No
 request id as a fixed field** — GC, sync and repair have no request.
 
+**Objects, 2026-08-16.** create, batch-create, object-info and batch-object-info exist over
+`laws` → FE → DN → SN. Every object gets its own stream, no inlining and no coalescing, because both
+would hide what a create costs. **DN indexes objects by name and owns the StreamId; SN looks a stream
+up by (DnId, StreamId)** and allocates neither. 20M objects created in 7.8 s (2.56M/s batched a
+thousand at a time), 2.3 GB in DN at ~116 B each; random lookups 263k/s singly and 5.11M/s batched.
+Both of §1.4's ObjectInfo bars cleared, but the comparison flatters us: no persistence, client shares
+the box, and an object is a name plus a stream reference rather than a full metadata record.
+
+**The three serializations that had to go**, each the same mistake in a different costume, and none
+visible until the rate was high: a forwarding tier that **blocked a worker** while another process
+worked (all-calls-asynchronous applies to *serving* — a handler now takes a `Reply` it carries into
+the answer); **one syscall per peer request** under one lock (peer connections use the same batching
+sender as answers); and **one connection between two processes being one read loop** on the far side
+(a fan of connections per peer now).
+
+**Logging is Bob's design, iterated hard.** Two rotating logs per process; a line is
+`level,time,pid,tid,file,line,constant,values` with the values comma-separated and low-cardinality
+first; one line per request written **when the answer is sent**, carrying the duration measured from
+when the *batch* arrived. Kept at info despite costing 18-19% on single-object requests because it
+settles live-site arguments ("SN is taking 50 seconds" vs "SN never got the message"). Files are
+lz4-compressed at **7.5x**, in blocks sized from `min_write_bytes x compress_ratio` of the log disk's
+media class, cut at line boundaries when a delayed write exceeds a block. Read by three answers -
+histogram, grep, lines - served both by each process and by a standalone signed `logs` binary, serially
+because it competes with the servers for CPU and disk. **The histogram has no knob**: a row per site,
+and the row is what to paste into the grep.
+
 **A batched ping was rejected** (2026-08-16): pipelining one client measures nothing the client
 count does not. What replaced it is a **variable reply size** filled with random bytes — and the
 generator is **Bob's own small fast one** (four words, three rotates, 64-bit rotates 7/13/37), since

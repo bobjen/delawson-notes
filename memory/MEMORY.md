@@ -5,7 +5,7 @@ One line per memory. Pointers only; content lives in the files.
 - [Clean-room constraint](delawson-clean-room.md) — never read or reference `~/src/outlaws*`; DeLawson is built from first principles.
 - [Bob Jenkins](bob-jenkins.md) — 20 years on Cosmos (erasure coding, replication, B-trees), 17 at Oracle; arrives with designs already formed.
 - [Purpose](delawson-purpose.md) — open source, aimed at shared AI memory; co-location kills egress fees.
-- [Next: append](delawson-next-append.md) — 2026-08-17's work; the first operation that reaches an EN.
+- [Append, as built](delawson-next-append.md) — three hops, EN vectors, 3-of-4; and what is deliberately missing.
 - [Log line rules](delawson-log-line-rules.md) — two messages, constants separate kinds, new lines start at notice.
 - [Next: implementation](delawson-next-implementation.md) — starts 2026-08-15: processes, config, single-box harness, delawson→FE0 ping as a messaging benchmark.
 - [Project shape](delawson-project-shape.md) — ~2-year build, Rust, two private repos, design-doc-first.
@@ -21,3 +21,6 @@ One line per memory. Pointers only; content lives in the files.
 - [Name length](delawson-name-length.md) — 20 characters or fewer, ideally 15; describe once at the definition.
 - [Measure three times](delawson-measure-thrice.md) — one sample is not a measurement; report the spread.
 - [Issue practice](delawson-issue-practice.md) — Issues are a cheap work queue; #1 is the ship checklist; update the docs before closing anything.
+- [Two spaces](delawson-two-spaces.md) — LOff and COff: logical and compressed are separate types so the compiler catches the mixup.
+- [Feature parameters](delawson-feature-parameters.md) — checked in off, and the ring's leader reads it and sends it.
+- [Test strategy](delawson-test-strategy.md) — unit tests are the bulk; one e2e test; benchmarks carry their numbers.

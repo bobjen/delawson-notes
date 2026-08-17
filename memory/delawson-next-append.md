@@ -1,41 +1,32 @@
 ---
 name: delawson-next-append
-description: Append is the next thing to build (session of 2026-08-17), and it is the first work that involves an EN
+description: Append was built 2026-08-17 (three hops, EN vectors, 3-of-4); what is deliberately not built yet
 metadata:
   type: project
 ---
 
-**Next session, 2026-08-17: append.** Bob's shape for it, stated 2026-08-16:
+**Append works as of 2026-08-17.** `laws append /path --data "…"` reaches an EN. See
+`DESIGN.md` §17.8 for what was built and §8.1.5-§8.1.6 for the design added with it.
 
-> Append will eventually be able to implicitly create an object if one does not exist
-> (FE → DN → SN) plus create an extent and append to it (FE → EN). But create is just
-> FE → DN → SN.
+The shape, so it is not re-derived: **FE → DN** for the object's stream, **FE → SN**
+for the extent, **FE → primary EN** for the bytes, **primary → three secondaries** in
+parallel, answered on three of four.
 
-So append is the first operation that reaches an **EN**, and the first that needs
-**extents**. What already exists to build on: `laws` → FE → DN → SN works for
-`create`, `batch-create`, `object-info` and `batch-object-info`; DN indexes objects
-by name and owns `StreamId`; SN keys streams by `(DnId, StreamId)` and holds a record
-per stream with nothing in it yet.
+What matters and is easy to lose:
 
-What the design already decides, and should not be re-litigated while building:
+- **The SN is asked once per extent, not once per append.** FE remembers the open
+  extent per `(DnId, StreamId)`; five successive appends produced zero SN requests.
+  That is what keeps the SN out of the write path, and it is a cache, so an FE holding
+  it still holds no state.
+- **An EN learns of an extent from the first append that names it.** There is no
+  create-extent on an EN and there does not need to be one.
+- **The quorum counting is a type of its own**, apart from the reply, which is why it
+  is unit-testable. Two failures settle it at once rather than after a timeout.
 
-- **An extent is named `(SnId, ExtentId, creation second)`** (§4.6.3), and the second
-  is what selects the daily key — so an extent id needs the clock, and the SN must
-  refuse to issue a second that goes backwards.
-- **The write path is a broadcast to four instances with a 3-of-4 quorum** (§8.1.2),
-  not a daisy chain, and **the SN is not in the write path** (§8.1.3).
-- **Accepted, applied, durable are three different things** (§8.1.1), and the append
-  returns a **receipt** (§8.1.1a-9, VSAM-like rather than POSIX-like).
-- **The client compresses** (§8.1.4.1), which is as far upstream as compression goes.
-- **EN-internal staging with common extents** (§8.1.4), and migration writes only the
-  one or two instances the scheme needs (§8.1.4.4).
-- **Nothing is persisted yet**, so an EN will hold bytes in RAM at first — the same
-  stand-in bargain DN's hash table already is.
+Deliberately not built, so nobody looks for it: implicit create (append to a missing
+name is `not found`), sealing and the extent cap, record framing and record numbers,
+EN-internal staging, the per-disk journal, and any way to read the bytes back.
 
-Two cautions from the object work that apply directly:
-
-- **A create that loses a race must not leave a stream behind**; the same discipline
-  will apply to an append that loses a race for an extent. Take the name, then make
-  the thing.
-- **The placeholder index degrades as it grows** (see [[delawson-measure-thrice]]),
-  so quote an append rate against a stated size and from a fresh process.
+⚠️ **The one known wrong thing:** the receipt's offset is a *compressed* position where
+the design wants a logical one, because the append carries no logical length. It is
+correct only while nothing compresses. Issue #48, and see [[delawson-two-spaces]].

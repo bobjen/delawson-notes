@@ -147,6 +147,30 @@ asynchronous** — request ids, any number outstanding, answers in any order —
 message is answered on the read loop or handed to a worker pool is per message type and a
 measurement**, with ping almost certainly inline (issue #34).
 
+**State at the end of 2026-08-16.** All five daemons exist (KS, DN, SN, EN, FE) plus `laws`, the
+`common` library, a standalone `logs` reader, and the three scripts. KS is the registrar: it holds the
+one fixed address, and everything else is handed a port by `start-laws`, announces it, and is found by
+name. Every call is asynchronous, including *serving* — a handler takes a `Reply` it can carry into the
+answer it waits for, so a forwarding tier costs a forward rather than a thread. Everything sent is
+encrypted and compressed in whole batches. Objects can be created and looked up. Nothing is persisted,
+nothing is deleted, there are no directories, no records, and no real keys.
+
+The numbers that matter, all retail on one 16-core box with the client sharing it:
+
+| | Rate | Spread |
+|---|---|---|
+| ping, 16 connections x 256 in flight | 12.8M round trips/s | 1.9% |
+| ping, 1 connection x 64 | 1.48M | |
+| object-info, one per request over 20M objects | 212k | 2.8% |
+| batch-object-info, 1,000 per request | 5.1M lookups/s | |
+| create, 1,000 per request, growing table | 2.8M objects/s | 51%, and that is the table |
+| create, same with the table pre-sized | 3.79M objects/s | 3.4% |
+
+**What is left open and worth reading before changing that code:** issues #37 (two-machine
+measurement — every number above has the client on the same box), #39 (the send switch is one-way),
+#41 and #42 (logging retention against line rate), #24 (message keys still a pre-shared test key), #44
+(machine facts in the log tool), #35 and #36 (ring membership, and what registration should become).
+
 **How to apply:** start at step 1 and do not skip ahead to storage. The milestone is
 deliberately about **process lifecycle, configuration, and message latency** — the things every
 later section depends on and none of which the design document specifies. Expect to add design

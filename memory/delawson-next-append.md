@@ -1,11 +1,13 @@
 ---
 name: delawson-next-append
-description: Append was built 2026-08-17 (three hops, EN vectors, 3-of-4); what is deliberately not built yet
+description: The write and read path as of 2026-08-17 — append, read, both kinds of sealing, four FEs — and what is next
 metadata:
   type: project
 ---
 
-**Append and read both work as of 2026-08-17.** `laws append /path --data "…"` creates
+**As of 2026-08-17 the whole path works**: create, append (which creates the object if
+needed), read by record number, extent sealing, stream sealing, and four front ends with
+clients pinned to one each. `laws append /path --data "…"` creates
 the object if it is not there, and `laws read /path --record 0` gives the record back.
 See `DESIGN.md` §17.8 and §17.9 for what was built, §8.1.5-§8.1.6 and §8.2.3-§8.2.4 for
 the design that arrived with it, and [[delawson-record-rules]] for the record rules.
@@ -25,9 +27,15 @@ What matters and is easy to lose:
 - **The quorum counting is a type of its own**, apart from the reply, which is why it
   is unit-testable. Two failures settle it at once rather than after a timeout.
 
-Deliberately not built, so nobody looks for it: **sealing** and the extent cap, the
-sparse index, reading by key, scans, EN-internal staging, and the per-disk journal.
-Sealing is next, by [[delawson-exercise-the-rare-path]].
+Deliberately not built, so nobody looks for it: the **sparse index**, reading by key,
+scans, EN-internal staging, the per-disk journal, and hints as a user-visible thing
+(#61).
+
+**What is next, in the order the work suggests:** a benchmark for append and read —
+every throughput number in `DESIGN.md` is still about pings and creates, and
+`extents.seal_bytes` must come up from its deliberately tiny 4 KB before any of it
+means anything. Then #59's open half (whether a segmented array can grow under the
+shared lock), which gates the real metadata structures.
 
 ⚠️ **Two placeholders to remember when quoting a read rate:** the EN parses an extent
 from the beginning every time (no sparse index), and a read of an *unsealed* extent goes

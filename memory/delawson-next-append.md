@@ -30,9 +30,15 @@ sparse index, reading by key, scans, EN-internal staging, and the per-disk journ
 Sealing is next, by [[delawson-exercise-the-rare-path]].
 
 ⚠️ **Two placeholders to remember when quoting a read rate:** the EN parses an extent
-from the beginning every time (no sparse index), and a read goes to the *primary* rather
-than any instance — an unsealed extent differs between instances, because a quorum of
-three plus local coalescing can leave interior holes.
+from the beginning every time (no sparse index), and a read of an *unsealed* extent goes
+to the **primary**.
+
+**Why the primary, stated correctly** (Bob corrected an earlier wrong reason of mine):
+below the durable length every instance has everything, contiguously — interior holes
+exist only *above* the watermark, on the primary too. The bytes do not differ. What a
+secondary may have is a **stale durable length**, so it would answer against the wrong
+watermark. Spreading unsealed reads is therefore a matter of getting a *number* to the
+secondaries, not of moving data (#54).
 
 ⚠️ **The one known wrong thing:** the receipt's offset is a *compressed* position where
 the design wants a logical one, because the append carries no logical length. It is

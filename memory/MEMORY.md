@@ -17,4 +17,5 @@ One line per memory. Pointers only; content lives in the files.
 - [Software should not matter](delawson-software-should-not-matter.md) — measure distance from the hardware bound, never from a competitor.
 - [Comment sparingly](delawson-code-comments.md) — few comments, and never a `DESIGN.md` section number in code.
 - [Name length](delawson-name-length.md) — 20 characters or fewer, ideally 15; describe once at the definition.
+- [Measure three times](delawson-measure-thrice.md) — one sample is not a measurement; report the spread.
 - [Issue practice](delawson-issue-practice.md) — Issues are a cheap work queue; #1 is the ship checklist; update the docs before closing anything.

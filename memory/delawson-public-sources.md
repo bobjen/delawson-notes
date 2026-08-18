@@ -45,3 +45,17 @@ of absolute epochs, and the 2^64 records per object.
 **How to apply:** cite rather than paraphrase, and do not treat the scale pages as requirements.
 When a design question touches *why* DeLawson exists, the AI page is the primary source and is more
 specific than the summary in §1.0. See [[delawson-purpose]], [[delawson-software-should-not-matter]].
+
+**And one peer-reviewed paper, added 2026-08-17:**
+[SCOPE: Easy and Efficient Parallel Processing of Massive Data Sets](http://www.vldb.org/pvldb/vol1/1454166.pdf),
+PVLDB 1(2) 2008 — Chaiken, **Jenkins**, Larson, Ramsey, Shakib, Weaver, Zhou.
+
+Two uses, and the second is the one that is hard to replace:
+
+- **A worked shape for Compute**: a declarative language over rowsets, no explicit parallelism, five
+  extensible operators, a cost-based optimizer, a job manager.
+- ⚠️ **A citable source for a distributed store that compresses.** §2.1 says append blocks are *"stored
+  in compressed form with compression and decompression done transparently at the client"* — and
+  **Cosmos is otherwise sparsely documented**, so this is one of the few public references for how a
+  production store of that shape handled compression. Under the clean-room rule
+  ([[delawson-clean-room]]) it is doubly useful: public *and* authored by Bob.

@@ -32,3 +32,14 @@ Two rules with teeth:
 
 See [[delawson-feature-parameters]] for why the test config has features on, and
 [[delawson-measure-thrice]] for the three-trials rule benchmarks still obey.
+
+**A test that has only ever passed is not evidence** (Bob, 2026-08-17): *"I assume
+my code is wrong if it hasn't been at least manually tested once, which means fails
+before my change as well as passes with my change."* So for a bug fix, reintroduce
+the bug, watch the new test fail, and put the fix back. ⚠️ Without it the usual
+outcome is not a missing test but a **vacuous** one — it exercises the fix's happy
+path and would keep passing if the fix were removed.
+
+Bob has done almost no reading of this code, so **the tests are the only real
+proof** it works. A test whose failing behaviour was never observed contributes
+nothing to that.

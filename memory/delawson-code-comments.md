@@ -35,6 +35,19 @@ comment saying it took a lock at all. State the hazard, not just the fact —
 "takes the name's shard lock, so a caller holding one deadlocks" is checkable
 where "uses locks" is not.
 
+**Unusual memory sources go above the variable's declaration** (Bob, 2026-08-17).
+In Rust the type says who owns a thing, so what is left worth saying is where the
+*bytes* came from when the type cannot say: a slot in a segmented array reached by
+id rather than reference, a slice into a serialized extent, a buffer off the
+network, memory whose life is tied to a lock being held. Ordinary allocation needs
+no comment; anything a reader would guess wrong about does.
+
+**And say which space a number is in.** The read path had `record` meaning
+object-local in one function and stream-local in another, which is the shape of the
+numbering bug that survived until the first seal. Putting the space in the name —
+`in_stream`, `in_extent` — is the same trick as caching a scan in a comment, applied
+where a comment would be too far from the use.
+
 **How to apply:** comment the *why* that the code cannot show — a trade-off
 taken, a hazard avoided, a unit — once, at the definition. State the reasoning
 without the citation: "a rule with too few domains is skipped, not failed" beats

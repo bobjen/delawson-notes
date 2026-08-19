@@ -27,3 +27,4 @@ One line per memory. Pointers only; content lives in the files.
 - [Record rules](delawson-record-rules.md) — one size bound for append, record and extent; a block ends on a boundary or holds none.
 - [Exercise the rare path](delawson-exercise-the-rare-path.md) — shrink a limit until the rare case is the common one.
 - [Abstraction has a cost](delawson-abstraction-cost.md) — an interface is paid at every use; Rust's privacy is per-module, so keep collaborators together and skip the accessors.
+- [ADLS Gen1 overview](../reference/adls-gen1-overview.md) — the retired public Cosmos docs: petabyte files, striping for parallel read, multiple copies, and a conspicuous silence on guarantees.

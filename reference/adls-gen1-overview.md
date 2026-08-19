@@ -64,3 +64,24 @@ Three claims in it are useful as **public** evidence rather than assertion:
 
 ⚠️ It does **not** support the statement in `DESIGN.md` §12.1 that ADLS Gen1 did not bill
 for user metadata. That remains Bob's own recollection, and this page is silent on pricing.
+
+## The arithmetic that makes the omission matter
+
+Bob read **$0.01/GB/month for cool data** off
+<https://azure.microsoft.com/en-us/pricing/details/storage/data-lake/> on 2026-08-19 (that page
+is Gen2, and ⚠️ its figures are JavaScript-rendered, so an automated fetch sees only
+placeholders — a human has to re-read it).
+
+At that logical price, revenue per **physical** GB per month is:
+
+| The customer's data | Physical per logical GB | Revenue per physical GB |
+|---|---|---|
+| compresses 6×, triplicate | 0.50 | $0.020 |
+| incompressible, triplicate | 3.00 | $0.0033 |
+| compresses 6×, 12+4 EC | 0.22 | $0.045 |
+| incompressible, 12+4 EC | 1.33 | $0.0075 |
+
+⚠️ **6× from compression alone, 13.5× across the table, against a 2× slack budget** — so the
+rational customer compresses client-side and moves to the cheap row. Worked through in
+`DESIGN.md` §12.3.3, with §12.3.3.1 noting that DeLawson's client already compresses, which is
+both why there is no internal win to keep and why compressed billing is predictable here.

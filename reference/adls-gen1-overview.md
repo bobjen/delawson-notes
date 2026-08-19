@@ -37,7 +37,15 @@ overview, not an architecture document. What follows is everything technical in 
 
 No consistency guarantee. No durability figure. No throughput number. No block, chunk or
 extent size. No quota or account limit of any kind. No description of how the striping is
-decided or how many copies are made.
+decided or how many copies are made. **And no mention of compression** (Bob, 2026-08-19),
+which matters because **prices were per GB** (Bob, 2026-08-19).
+
+⚠️ **Those two together are the most interesting thing on the page.** The SCOPE paper says
+Cosmos stores data compressed, so the store compressed and the price list did not say so —
+which reads as billing **logical** bytes and keeping the compression win. A provider billing
+compressed bytes has to explain compression, because the customer cannot otherwise predict
+the bill; one billing logical bytes never has to mention it. Recorded in `DESIGN.md` §12.3.2
+alongside BigQuery, which also defaults to logical.
 
 ## Why it is worth keeping
 

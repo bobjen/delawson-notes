@@ -20,11 +20,21 @@ Concretely, he renamed the SecretStore ring from `SS` to **`KS` (Key Store)`**
 after I pointed out the initials and that "key" is more accurate than "secret"
 for what it holds.
 
-**An index is named for what it indexes** (Bob, 2026-08-17). He almost never writes
-`i`: Gaussian elimination gets `iCol`, `iRow`, `iDiag`, *"so I can't accidentally
-use the wrong one."* Reusing the same name in separate scopes of one file is fine —
-scope disambiguates, and the point is not uniqueness but that a mix-up reads
-wrongly.
+**An index is named for what it indexes** (Bob, 2026-08-17). Gaussian elimination
+gets `iCol`, `iRow`, `iDiag`, *"so I can't accidentally use the wrong one."*
+Reusing the same name in separate scopes of one file is fine — scope disambiguates,
+and the point is not uniqueness but that a mix-up reads wrongly.
+
+**`i` is fine when there is just one loop, and gets renamed as soon as the loop gets
+more complicated** (Bob, 2026-08-17). So the trigger is not the loop, it is whether
+anything is available to confuse it with — rename once any of these is true:
+
+- a second index is in scope, or the loop is nested;
+- it indexes more than one array, or a different array than the obvious one;
+- it escapes the loop body — stored, returned, or passed to something else.
+
+That last case is where a name stops being enough and [[delawson-two-spaces]]'s
+newtypes take over.
 
 ⚠️ **The principle transfers, the spelling does not.** Rust is snake_case and this
 project uses it, so the names are `col`, `row`, `diag`, `en`, `nth`. And Rust

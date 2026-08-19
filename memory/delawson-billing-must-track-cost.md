@@ -61,3 +61,14 @@ makes that swing zero without anyone guessing a compression ratio.
 **Which relocates the risk.** Bytes self-correct, so the ways an owner still goes broke are
 metadata, operations and the transient double footprint during compaction — and not billing
 metadata is precisely what ADLS Gen1 got wrong. Recorded in §12.1.0.
+
+**And DeLawson ships a cost model, not a price list** (Bob, 2026-08-19). Billing is designed
+so an operator can drive bills arbitrarily close to cost, because — with open source — that is
+what makes the thing get used. An operator wanting more margin sets the coefficients: multiply
+everything by X, or charge above cost on some dimensions and not others. *"It is always a
+business in some sense, because actual clusters do cost money to run"* — which covers internal
+chargeback as well as sales.
+
+⚠️ **So the 2× slack is the error an operator cannot tune away.** Multiplying coefficients
+changes the level, not the shape, so a dimension whose shape is wrong stays wrong at every
+price. The design owes correct *dimensions*, not correct prices. Recorded in §12.0.

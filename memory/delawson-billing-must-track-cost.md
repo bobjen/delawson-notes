@@ -44,3 +44,20 @@ healthy workload, and billing only for bytes is what destroys the condition that
 makes it true. When adding any mechanism that consumes a bounded resource, ask what
 meters it. Details in §12; this memory exists because the lesson is easy to lose and
 expensive to relearn. See [[delawson-estimates-are-budgets]].
+
+**The two bounds are not symmetric** (Bob, 2026-08-19): *"If DeLawson can store the same
+data in less space and pass the savings on to customers, using less space makes DeLawson
+more likely to get used. DeLawson billing just has to assure the cluster owner doesn't go
+broke in the process."* The floor is the constraint; the ceiling is the lever.
+
+⚠️ **So DeLawson bills physical bytes, and that is a competitive decision rather than an
+accounting one.** Under logical billing the savings cannot reach the customer at all —
+compression, coalescing and erasure coding would improve the owner's margin and nothing
+else, and the customer would see the same bill a non-compressing competitor charges.
+Physical billing also tracks cost by construction: `DESIGN.md` §12.3.3 measures a 13.5×
+swing in revenue per physical byte under logical pricing, and billing the physical byte
+makes that swing zero without anyone guessing a compression ratio.
+
+**Which relocates the risk.** Bytes self-correct, so the ways an owner still goes broke are
+metadata, operations and the transient double footprint during compaction — and not billing
+metadata is precisely what ADLS Gen1 got wrong. Recorded in §12.1.0.

@@ -37,15 +37,19 @@ overview, not an architecture document. What follows is everything technical in 
 
 No consistency guarantee. No durability figure. No throughput number. No block, chunk or
 extent size. No quota or account limit of any kind. No description of how the striping is
-decided or how many copies are made. **And no mention of compression** (Bob, 2026-08-19),
-which matters because **prices were per GB** (Bob, 2026-08-19).
+decided or how many copies are made. **And no mention of compression**, which is the omission
+that matters.
 
-⚠️ **Those two together are the most interesting thing on the page.** The SCOPE paper says
-Cosmos stores data compressed, so the store compressed and the price list did not say so —
-which reads as billing **logical** bytes and keeping the compression win. A provider billing
-compressed bytes has to explain compression, because the customer cannot otherwise predict
-the bill; one billing logical bytes never has to mention it. Recorded in `DESIGN.md` §12.3.2
-alongside BigQuery, which also defaults to logical.
+**Azure lists prices in GB, and ADLS Gen1 presumably billed the customer the same way** —
+Bob's guess, 2026-08-19, from the general Azure convention rather than from that product's
+price list. ⚠️ The unit is the weaker half of the argument anyway: a store billing compressed
+bytes would also quote per GB, so "per GB" says nothing about *which* GB.
+
+⚠️ **The silence is what carries it.** SCOPE says Cosmos stores data compressed, so a product
+that compresses, charges by the GB and never mentions compression is almost certainly not
+charging for the compressed byte — a provider billing compressed bytes has to explain
+compression, because the customer cannot otherwise predict the bill. Recorded in `DESIGN.md`
+§12.3.2 alongside BigQuery, which also defaults to logical.
 
 ## Why it is worth keeping
 

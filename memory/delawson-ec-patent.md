@@ -5,20 +5,9 @@ metadata:
   type: project
 ---
 
-**Do not implement maximally recoverable codes with locality in DeLawson without
-settling the patent question first.** A 2013 Microsoft patent covers the technique
-and **does not expire until 2034**.
-
 The public paper is ["Explicit Maximally Recoverable Codes with
 Locality"](https://arxiv.org/html/1307.4150v2) — Gopalan, Huang, **Jenkins**,
 Yekhanin, 2013. Bob is a co-inventor.
-
-**Why it matters:** the technique is genuinely better on every axis than plain
-Reed-Solomon — its Example 16 code, local (60,4,4), gives 1.33× overhead against
-8+4's 1.50×, 4× repair amplification against 8×, and better durability. Locality
-decouples repair traffic from *k*, so cheap storage and cheap repair stop being in
-tension. That makes it exactly what DeLawson wants, and the temptation
-correspondingly strong.
 
 **Why the co-inventorship is a hazard rather than a help:** the construction is
 familiar to Bob and the paper is public, so it would be easy to reach for it
@@ -26,7 +15,8 @@ without noticing there is an IP question at all. Being an author confers no
 licence.
 
 **Decision:** the purpose of DeLawson is communication of designs as much as being a product,
-which requires implementing EC properly. So, implement rectangular LRCs, but protect
-them with a parameter and a warning on the parameter that it is patent protected.
-And also implement turbocodes with similar functionality as the default, since they are not patent
-protected, allowing DeLawson to be used in production without infringing the patent.
+which requires implementing EC properly. Rectangular LRCs are already public through the paper
+and the patent, but DeLawson can show how to implement it in practice. So, fully implement 
+rectangular LRCs, but protect them with a parameter and a warning on the parameter that it is patent protected.
+Also implement turbocodes with similar functionality as the default, since they are not patent
+protected, almost as space efficient, and allow DeLawson to be used in production without infringing the patent.

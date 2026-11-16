@@ -8,7 +8,13 @@ metadata:
 Never read, grep, search, or reference anything under `~/src/outlaws*`, nor the
 `github.com/bobjen/laws` and `github.com/bobjen/laws-notes` repos. Do not draw
 designs, names, constants, or file layouts from them. Derive answers in
-`~/src/delawson` or ask Bob.
+`~/src/delawson` or ask Bob. (~/src/outlaws* was an earlier attempt at DeLawson 
+just named Laws started in January 2026, before Bob retired in July 2026, to see what
+AI and Rust were capable of. It was abandoned August 2026. Most of its effort was on 
+tuning message infrastructure in Rust. 
+It got as far as key sharding in the key store. It did not reach delete or rings. The 
+current DeLawson was redone from scratch without referencing it. ~/src/outlaws
+and github.com/bobjen/laws still exist only for historical purposes.)
 
 **Enforced in the harness** as of 2026-08-14, at Bob's request: deny rules in
 `~/.claude/settings.json` plus a `PreToolUse` hook

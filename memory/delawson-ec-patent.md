@@ -33,3 +33,9 @@ construction, or pay the repair traffic. This needs counsel, and it must be sett
 and those live for decades (§4.6.3). Also note 6+3 fails the 10^-14 durability
 target — *m* = 4 is the floor. See [[delawson-clean-room]] for the related
 provenance discipline.
+
+**Decision:** the purpose of DeLawson is communication of designs as much as being a product,
+which requires implementing EC properly. So, implement rectangular LRCs, but protect
+them with a parameter and a warning on the parameter that it is patent protected.
+And also implement turbocodes with similar functionality as the default, since they are not patent
+protected, allowing DeLawson to be used in production without infringing the patent.

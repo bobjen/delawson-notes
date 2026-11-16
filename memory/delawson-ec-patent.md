@@ -25,15 +25,6 @@ familiar to Bob and the paper is public, so it would be easy to reach for it
 without noticing there is an IP question at all. Being an author confers no
 licence.
 
-**How to apply:** the working assumption in `DESIGN.md` §4.3.2 is plain
-Reed-Solomon with *m* = 4, with *k* chosen against the repair-traffic budget rather
-than the storage ratio. Options before 2034 are licence, find an unencumbered
-construction, or pay the repair traffic. This needs counsel, and it must be settled
-*before* any code is chosen, because the choice is baked into every sealed extent
-and those live for decades (§4.6.3). Also note 6+3 fails the 10^-14 durability
-target — *m* = 4 is the floor. See [[delawson-clean-room]] for the related
-provenance discipline.
-
 **Decision:** the purpose of DeLawson is communication of designs as much as being a product,
 which requires implementing EC properly. So, implement rectangular LRCs, but protect
 them with a parameter and a warning on the parameter that it is patent protected.

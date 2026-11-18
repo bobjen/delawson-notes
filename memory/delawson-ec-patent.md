@@ -20,3 +20,5 @@ and the patent, but DeLawson can show how to implement it in practice. So, fully
 rectangular LRCs, but protect them with a parameter and a warning on the parameter that it is patent protected.
 Also implement turbocodes with similar functionality as the default, since they are not patent
 protected, almost as space efficient, and allow DeLawson to be used in production without infringing the patent.
+In particular, RS(8+2), with all symbols duplicated, uses the normal RS constants and requires 6 symbols to be
+erased before suffering data loss.
